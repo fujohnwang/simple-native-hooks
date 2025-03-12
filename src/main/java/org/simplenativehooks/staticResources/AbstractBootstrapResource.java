@@ -38,15 +38,21 @@ public abstract class AbstractBootstrapResource {
             logger.warn("FUCK!!! failed to load classpath resource : " + classpathResource);
             return;
         }
-        logger.info("mkdir if non-exist for local dest location: " + NativeHookBootstrapResources.getNativeHookDirectory().getAbsolutePath());
-        if (!NativeHookBootstrapResources.getNativeHookDirectory().exists()) {
-            FileUtils.forceMkdir(NativeHookBootstrapResources.getNativeHookDirectory());
+        try {
+            logger.info("mkdir if non-exist for local dest location: " + NativeHookBootstrapResources.getNativeHookDirectory().getAbsolutePath());
+            if (!NativeHookBootstrapResources.getNativeHookDirectory().exists()) {
+                FileUtils.forceMkdir(NativeHookBootstrapResources.getNativeHookDirectory());
+            }
+            File localHook = new File(NativeHookBootstrapResources.getNativeHookDirectory(), NativeHookBootstrapResources.getNativeHookExecutableName());
+            logger.info("copy native hook from classpath to local location: " + localHook);
+            FileUtils.copyInputStreamToFile(ins, localHook);
+
+            logger.info("make native hook executable...");
+            localHook.setExecutable(true);
+        } finally {
+            ins.close();
         }
-        File localHook = new File(NativeHookBootstrapResources.getNativeHookDirectory(), NativeHookBootstrapResources.getNativeHookExecutableName());
-        logger.info("copy native hook from classpath to local location: " + localHook);
-        FileUtils.copyInputStreamToFile(ins, localHook);
-        logger.info("make native hook executable...");
-        localHook.setExecutable(true);
+
 
 //        logger.info("extract from current jar with arg: (path=" + path + ", dest=" + getExtractingDest() + ")");
 //        FileUtility.extractFromCurrentJar(path, getExtractingDest(), new Function<String, Boolean>() {

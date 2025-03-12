@@ -96,7 +96,12 @@ public class NativeHookBootstrapResources extends AbstractBootstrapResource {
 
     @Override
     protected File getExtractingDest() {
-        return new File(FileUtility.joinPath("resources", "nativehooks", getOSDir()));
+        File rootDir = nativeHookExtractFSDir.get();
+        if (rootDir == null) {
+            return new File(FileUtility.joinPath("resources", "nativehooks", getOSDir()));
+        }else{
+            return new File(rootDir, FileUtility.joinPath("resources", "nativehooks", getOSDir()));
+        }
     }
 
     @Override
