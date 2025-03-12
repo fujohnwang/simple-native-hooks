@@ -15,7 +15,7 @@ public abstract class AbstractBootstrapResource {
 
     private static final Logger LOGGER = Logger.getLogger(AbstractBootstrapResource.class.getName());
 
-    protected org.slf4j.Logger logger = LoggerFactory.getLogger(AbstractBootstrapResource.class.getName());
+    protected static org.slf4j.Logger logger = LoggerFactory.getLogger(AbstractBootstrapResource.class.getName());
 
     protected void extractResources() throws IOException, URISyntaxException {
 //        logger.info("try to extract native hook resource: " + getExtractingDest().getAbsolutePath());
@@ -43,7 +43,9 @@ public abstract class AbstractBootstrapResource {
             FileUtils.forceMkdir(NativeHookBootstrapResources.getNativeHookDirectory());
         }
         File localHook = new File(NativeHookBootstrapResources.getNativeHookDirectory(), NativeHookBootstrapResources.getNativeHookExecutableName());
+        logger.info("copy native hook from classpath to local location: " + localHook);
         FileUtils.copyInputStreamToFile(ins, localHook);
+        logger.info("make native hook executable...");
         localHook.setExecutable(true);
 
 //        logger.info("extract from current jar with arg: (path=" + path + ", dest=" + getExtractingDest() + ")");

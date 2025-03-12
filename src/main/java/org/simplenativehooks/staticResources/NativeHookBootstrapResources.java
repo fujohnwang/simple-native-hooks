@@ -49,7 +49,9 @@ public class NativeHookBootstrapResources extends AbstractBootstrapResource {
     }
 
     public static File getNativeHookExecutable() {
-        return new File(FileUtility.joinPath(getNativeHookDirectory().getAbsolutePath(), getNativeHookExecutableName()));
+        File exec = new File(FileUtility.joinPath(getNativeHookDirectory().getAbsolutePath(), getNativeHookExecutableName()));
+        logger.info("native hook exec: " + exec);
+        return exec;
     }
 
     @Override
