@@ -1,10 +1,15 @@
 
 # Intro
 
-This is an adapted project by introducing more flexible configurations for the native hooks.
+This is an adapted project by introducing more flexible configurations for the native hooks. 
+
+Honor to https://github.com/repeats/SimpleNativeHooks 
+
+I just have to extend it at failure on native-image build on macos.
 
 - custom extract root location in the file system
-
+- extract logic extension
+- maven build with pom.xml and more dependencies for convenience.
 
 
 
