@@ -548,22 +548,26 @@ public class FileUtility {
      * @throws URISyntaxException
      */
     public static void extractFromCurrentJar(String path, File destination, Function<String, Boolean> filteringFunction, Function<String, Boolean> postProcessingFunction) throws IOException, URISyntaxException {
-//		final File jarFile = new File(FileUtility.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-        final File jarFile = new File(FileUtility.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
-
         // -------------ADDED by Darren ⇓⇓⇓⇓⇓⇓⇓-----------------
-        if (jarFile == null) {
-            // native-image built application, so no jar anymore...
-            final URL url = FileUtility.class.getResource("/" + path);
-            if (url == null) {
-                logger.warn("fails to locate native hook resource from classpath with path: " + path);
-                return;
-            }
 
-            FileUtils.copyURLToFile(url, destination);
-            return;
-        }
+        // native-image built application, so no jar anymore...
+//        String classpathResource = path + "/" + NativeHookBootstrapResources.getNativeHookExecutableName();
+//        final URL url = FileUtility.class.getClassLoader().getResource(classpathResource);
+//        if (url == null) {
+//            logger.warn("fails to locate native hook resource from classpath with path: " + classpathResource);
+//            return;
+//        }
+//        if (!destination.exists()) {
+//            FileUtils.forceMkdir(destination);
+//        }
+//        FileUtils.copyURLToFile(url, destination);
+//        postProcessingFunction.apply(new File(destination, NativeHookBootstrapResources.getNativeHookExecutableName()).getAbsolutePath());
+        // short-circuit the following execution 🤓
+
         // -------------⇧⇧⇧⇧⇧⇧END ADDED by Darren -----------------
+
+        //		final File jarFile = new File(FileUtility.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+        final File jarFile = new File(FileUtility.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
 
         if (jarFile.isFile()) {// Run with JAR file
             final JarFile jar = new JarFile(jarFile);

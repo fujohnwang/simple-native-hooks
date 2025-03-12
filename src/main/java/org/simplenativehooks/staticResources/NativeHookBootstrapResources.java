@@ -16,6 +16,7 @@ public class NativeHookBootstrapResources extends AbstractBootstrapResource {
 
     /**
      * Change and extend to allow custom prefix file system root dir.
+     *
      * @return
      */
     public static File getNativeHookDirectory() {
@@ -25,10 +26,14 @@ public class NativeHookBootstrapResources extends AbstractBootstrapResource {
         } else {
             return new File(rootDir, FileUtility.joinPath("resources", "nativehooks", getOSDir()));
         }
-
     }
 
-    public static File getNativeHookExecutable() {
+    /**
+     * ADDED by darren
+     *
+     * @return
+     */
+    public static String getNativeHookExecutableName() {
         String file = "";
 
         if (OSIdentifier.IS_WINDOWS) {
@@ -40,7 +45,11 @@ public class NativeHookBootstrapResources extends AbstractBootstrapResource {
         if (OSIdentifier.IS_OSX) {
             file = "RepeatHook.out";
         }
-        return new File(FileUtility.joinPath(getNativeHookDirectory().getAbsolutePath(), file));
+        return file;
+    }
+
+    public static File getNativeHookExecutable() {
+        return new File(FileUtility.joinPath(getNativeHookDirectory().getAbsolutePath(), getNativeHookExecutableName()));
     }
 
     @Override
