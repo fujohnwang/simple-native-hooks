@@ -21,11 +21,15 @@ public class NativeHookBootstrapResources extends AbstractBootstrapResource {
      */
     public static File getNativeHookDirectory() {
         File rootDir = nativeHookExtractFSDir.get();
+        File nativeHookDir = null;
         if (rootDir == null) {
-            return new File(FileUtility.joinPath("resources", "nativehooks", getOSDir()));
+            nativeHookDir = new File(FileUtility.joinPath("resources", "nativehooks", getOSDir()));
         } else {
-            return new File(rootDir, FileUtility.joinPath("resources", "nativehooks", getOSDir()));
+            nativeHookDir = new File(rootDir, FileUtility.joinPath("resources", "nativehooks", getOSDir()));
         }
+        logger.info("getNativeHookDirectory with rootDir=" + rootDir);
+        logger.info("getNativeHookDirectory with final result dir=" + nativeHookDir);
+        return nativeHookDir;
     }
 
     /**
@@ -99,7 +103,7 @@ public class NativeHookBootstrapResources extends AbstractBootstrapResource {
         File rootDir = nativeHookExtractFSDir.get();
         if (rootDir == null) {
             return new File(FileUtility.joinPath("resources", "nativehooks", getOSDir()));
-        }else{
+        } else {
             return new File(rootDir, FileUtility.joinPath("resources", "nativehooks", getOSDir()));
         }
     }
