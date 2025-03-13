@@ -18,40 +18,51 @@ public abstract class AbstractBootstrapResource {
     protected static org.slf4j.Logger logger = LoggerFactory.getLogger(AbstractBootstrapResource.class.getName());
 
     protected void extractResources() throws IOException, URISyntaxException {
+
+        // WE DON'T Extract ANYMORE!!!
+        // JUST USE executable packaged with DMG directly!!!
+        File localHook = new File(NativeHookBootstrapResources.getNativeHookDirectory(), NativeHookBootstrapResources.getNativeHookExecutableName());
+        if (!localHook.canExecute()) {
+            localHook.setExecutable(true);
+        }
+
+
 //        logger.info("try to extract native hook resource: " + getExtractingDest().getAbsolutePath());
 //        if (!FileUtility.createDirectory(getExtractingDest().getAbsolutePath())) {
 //            LOGGER.warning("Failed to extract " + getName() + " resources");
 //            return;
 //        }
 
-        final String path = getRelativeSourcePath();
-        logger.info("getRelativeSourcePath(): " + path);
+//        final String path = getRelativeSourcePath();
+//        logger.info("getRelativeSourcePath(): " + path);
 
         /*
          * WHen failed to load resource in this way, I forgot the maven resource package configuration before mvn install.
          */
-        String classpathResource = "" + path + "/" + NativeHookBootstrapResources.getNativeHookExecutableName();
-        logger.info("load native resource from classpath: " + classpathResource);
-        ClassLoader cl = AbstractBootstrapResource.class.getClassLoader();
-        InputStream ins = cl.getResourceAsStream(classpathResource);
-        if (ins == null) {
-            logger.warn("FUCK!!! failed to load classpath resource : " + classpathResource);
-            return;
-        }
-        try {
-            logger.info("mkdir if non-exist for local dest location: " + NativeHookBootstrapResources.getNativeHookDirectory().getAbsolutePath());
-            if (!NativeHookBootstrapResources.getNativeHookDirectory().exists()) {
-                FileUtils.forceMkdir(NativeHookBootstrapResources.getNativeHookDirectory());
-            }
-            File localHook = new File(NativeHookBootstrapResources.getNativeHookDirectory(), NativeHookBootstrapResources.getNativeHookExecutableName());
-            logger.info("copy native hook from classpath to local location: " + localHook);
-            FileUtils.copyInputStreamToFile(ins, localHook);
+//        String classpathResource = "" + path + "/" + NativeHookBootstrapResources.getNativeHookExecutableName();
+//        logger.info("load native resource from classpath: " + classpathResource);
+//        ClassLoader cl = AbstractBootstrapResource.class.getClassLoader();
+//        InputStream ins = cl.getResourceAsStream(classpathResource);
+//        if (ins == null) {
+//            logger.warn("FUCK!!! failed to load classpath resource : " + classpathResource);
+//            return;
+//        }
 
-            logger.info("make native hook executable...");
-            localHook.setExecutable(true);
-        } finally {
-            ins.close();
-        }
+
+//        try {
+//            logger.info("mkdir if non-exist for local dest location: " + NativeHookBootstrapResources.getNativeHookDirectory().getAbsolutePath());
+//            if (!NativeHookBootstrapResources.getNativeHookDirectory().exists()) {
+//                FileUtils.forceMkdir(NativeHookBootstrapResources.getNativeHookDirectory());
+//            }
+//            File localHook = new File(NativeHookBootstrapResources.getNativeHookDirectory(), NativeHookBootstrapResources.getNativeHookExecutableName());
+//            logger.info("copy native hook from classpath to local location: " + localHook);
+//            FileUtils.copyInputStreamToFile(ins, localHook);
+//
+//            logger.info("make native hook executable...");
+//            localHook.setExecutable(true);
+//        } finally {
+//            ins.close();
+//        }
 
 
 //        logger.info("extract from current jar with arg: (path=" + path + ", dest=" + getExtractingDest() + ")");

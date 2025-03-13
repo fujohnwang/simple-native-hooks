@@ -72,6 +72,17 @@ public abstract class AbstractNativeHookEventProcessor {
             BufferedReader bufferStdout = new BufferedReader(new InputStreamReader(process.getInputStream()));
             BufferedReader bufferStderr = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 
+            // 检查进程是否存活
+            Thread.sleep(100); // 短暂等待
+            if (!process.isAlive()) {
+                logger.warn("RepeatHook.out exited immediately, code: " + process.exitValue());
+                BufferedReader err = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+                String line;
+                while ((line = err.readLine()) != null) {
+                    logger.warn("Error output: " + line);
+                }
+            }
+
             logger.info("start stdout thread of native hook...");
             stdoutThread = new Thread() {
                 @Override
